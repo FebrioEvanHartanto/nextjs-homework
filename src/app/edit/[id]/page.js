@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import {updateBook} from "@/fetch/books"
+import Swal from "sweetalert2"
 
 const EditPage = () => {
   const router = useRouter();
@@ -25,10 +26,19 @@ const EditPage = () => {
         year,
         pages
       });
-      // Redirect to the books page after updating
+      Swal.fire({
+        icon: "success",
+        title: "Book Updated!",
+        text: "Book updated successfully!",
+      });
       router.push("/books");
     } catch (error) {
       console.error("Error updating book:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed To Update Book!",
+        text: "Failed to update book.",
+      });
     }
   };
 

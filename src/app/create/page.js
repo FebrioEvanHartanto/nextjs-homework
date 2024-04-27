@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { createBook, uploadImage } from '@/fetch/books';
 import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 const CreateBook = () => {
 
@@ -17,11 +18,21 @@ const CreateBook = () => {
   const handleCreate = async (e) => {
     try {
       await createBook({title, author, publisher, year: +year, pages: +pages, imageUrl});
+      Swal.fire({
+        icon: "success",
+        title: "Book Created!",
+        text: "Book created successfully!",
+      });
       router.refresh();
       router.push('/books');
 
     } catch (error) {
       console.error('Error creating book:', error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed To Create Book!",
+        text: "Failed to create book.",
+      });
     }
   }
 

@@ -3,6 +3,7 @@
 import {useState} from 'react'
 import { login } from '@/fetch/auth';
 import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 const Login = () => {
 
@@ -11,10 +12,24 @@ const Login = () => {
   const router = useRouter();
 
   const handleSubmit = async () => {
-    await login({email, password});
-    router.push("/");
+    try {
+      await login({email, password});
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful!",
+        text: "Login Success!",
+      });
+      router.push("/");
+    } catch (error) {
+        console.log("Something went wrong!", error)
+        Swal.fire({
+          icon: "error",
+          title: "Invalid Username or Password!",
+          text: "Please enter the correct username or password!",
+        });
+    } 
   }
-
+  
   return (
     <>
       <input type='email' placeholder='Enter Email...'  onChange ={(e) => setEmail(e.target.value)}/>
